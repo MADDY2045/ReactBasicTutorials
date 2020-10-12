@@ -33,8 +33,8 @@ const LineChart = () => {
     },[]);
 
     return (
-        <div className="container card">
-            <h1>Line Chart</h1>
+        <div className="container card" style={{padding:'40px'}}>
+            <h4>Line Chart</h4>
             <Line data={data} options={{title:{display:true,text:'Average Rainfall per month',fontSize:20},legend:{display:true,position:'bottom'}}}/>
         </div>
     );

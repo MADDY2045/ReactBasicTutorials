@@ -34,8 +34,8 @@ const PieChart = () => {
     },[]);
 
     return (
-        <div className="container card">
-            <h1>Pie Chart</h1>
+        <div className="container card" style={{padding:'40px'}}>
+            <h4>Pie Chart</h4>
             <Pie data={data}  options={{
             title:{
               display:true,

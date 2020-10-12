@@ -29,8 +29,8 @@ const BarChart = () => {
         },2000)
     },[])
     return (
-        <div className="container card">
-            <h1>Bar Chart</h1>
+        <div className="container card" style={{padding:'40px'}}>
+            <h4>Bar Chart</h4>
             <Bar
             data={data}
             width={10}
