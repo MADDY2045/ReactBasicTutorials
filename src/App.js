@@ -1,30 +1,31 @@
-import React,{ useState } from 'react'
-import TabNav from '../src/components/TabNav';
-import Tab from '../src/components/Tab';
-import './App.css'
-export default function App() {
-  const [selected,setSelected] = useState('Home');
+import React from 'react';
+import './App.css';
 
-  const setSelectedFunction = (tab)=>{
-    setSelected(tab);
-  }
+import BarChart from './components/BarChart';
+import LineChart from './components/LineChart';
+import PieChart from './components/PieChart';
+import DoughnutChart from './components/DoughnutChart';
+const App = () => {
   return (
-    <div className="container mt-4">
-      <TabNav tabs={['Home','Settings','Profile']} selected={selected} setSelected={ setSelectedFunction }>
-      <Tab isSelected={ selected === 'Home' }>
-            <p>Some test text</p>
-          </Tab>
-          <Tab isSelected={ selected === 'Settings' }>
-            <h1>More test text</h1>
-          </Tab>
-          <Tab isSelected={ selected === 'Profile' }>
-            <ul>
-              <li>List test 1</li>
-              <li>List test 2</li>
-              <li>List test 3</li>
-            </ul>
-          </Tab>
-      </TabNav>
-    </div>
-  )
+    <div >
+      <div className="row col-12 mt-3 ml-3">
+          <div className="row col-6">
+          <BarChart />
+          </div>
+          <div className="row col-6">
+          <LineChart />
+          </div>
+       </div>
+       <div className="row col-12 mt-3 ml-3">
+          <div className="row col-6">
+          <PieChart />
+          </div>
+          <div className="row col-6">
+          <DoughnutChart />
+          </div>
+       </div>
+      </div>
+  );
 }
+
+export default App;
