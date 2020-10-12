@@ -1,35 +1,41 @@
-import React from 'react';
+import React,{ useState,useEffect } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-const data = {
-    labels: ['January', 'February', 'March',
-             'April', 'May'],
-    datasets: [
-      {
-        label: 'Rainfall',
-        backgroundColor: [
-          '#B21F00',
-          '#C9DE00',
-          '#2FDE00',
-          '#00A6B4',
-          '#6800B4'
-        ],
-        hoverBackgroundColor: [
-        '#501800',
-        '#4B5000',
-        '#175000',
-        '#003350',
-        '#35014F'
-        ],
-        data: [65, 59, 80, 81, 56]
-      }
-    ]
-  }
-
 const PieChart = () => {
+    const [data,setData] = useState({});
+
+    useEffect(()=>{
+        setInterval(()=>{
+            setData({
+                labels: ['January', 'February', 'March',
+                         'April', 'May'],
+                datasets: [
+                  {
+                    label: 'Rainfall',
+                    backgroundColor: [
+                      '#B21F00',
+                      '#C9DE00',
+                      '#2FDE00',
+                      '#00A6B4',
+                      '#6800B4'
+                    ],
+                    hoverBackgroundColor: [
+                    '#501800',
+                    '#4B5000',
+                    '#175000',
+                    '#003350',
+                    '#35014F'
+                    ],
+                    data: [(Math.floor(Math.random() * 100) + 1), (Math.floor(Math.random() * 100) + 1), (Math.floor(Math.random() * 100) + 1), (Math.floor(Math.random() * 100) + 1), (Math.floor(Math.random() * 100) + 1)]
+                  }
+                ]
+              })
+        },2000)
+    },[]);
+
     return (
         <div className="container card">
-            <h4 style={{fontSize:"20"}}>Doughnut Chart</h4>
+            <h4>Doughnut Chart</h4>
             <Doughnut data={data}  options={{
             title:{
               display:true,
@@ -41,6 +47,7 @@ const PieChart = () => {
               position:'right'
             }
           }}/>
+
         </div>
     );
 }

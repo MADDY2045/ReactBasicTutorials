@@ -6,6 +6,7 @@ import LineChart from './components/LineChart';
 import PieChart from './components/PieChart';
 import DoughnutChart from './components/DoughnutChart';
 const App = () => {
+
   return (
     <div >
       <div className="row col-12 mt-3 ml-3">

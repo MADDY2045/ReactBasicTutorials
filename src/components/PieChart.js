@@ -1,32 +1,38 @@
-import React from 'react';
+import React,{ useState,useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 
-const data = {
-    labels: ['January', 'February', 'March',
-             'April', 'May'],
-    datasets: [
-      {
-        label: 'Rainfall',
-        backgroundColor: [
-          '#B21F00',
-          '#C9DE00',
-          '#2FDE00',
-          '#00A6B4',
-          '#6800B4'
-        ],
-        hoverBackgroundColor: [
-        '#501800',
-        '#4B5000',
-        '#175000',
-        '#003350',
-        '#35014F'
-        ],
-        data: [65, 59, 80, 81, 56]
-      }
-    ]
-  }
-
 const PieChart = () => {
+    const [data,setData] = useState({});
+
+    useEffect(()=>{
+        setInterval(()=>{
+            setData({
+                labels: ['January', 'February', 'March',
+                         'April', 'May'],
+                datasets: [
+                  {
+                    label: 'Rainfall',
+                    backgroundColor: [
+                      '#B21F00',
+                      '#C9DE00',
+                      '#2FDE00',
+                      '#00A6B4',
+                      '#6800B4'
+                    ],
+                    hoverBackgroundColor: [
+                    '#501800',
+                    '#4B5000',
+                    '#175000',
+                    '#003350',
+                    '#35014F'
+                    ],
+                    data: [(Math.floor(Math.random() * 100) + 1), (Math.floor(Math.random() * 100) + 1), (Math.floor(Math.random() * 100) + 1), (Math.floor(Math.random() * 100) + 1), (Math.floor(Math.random() * 100) + 1)]
+                  }
+                ]
+              })
+        },2000)
+    },[]);
+
     return (
         <div className="container card">
             <h1>Pie Chart</h1>
