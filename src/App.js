@@ -1,30 +1,45 @@
 import React,{ useState } from 'react'
-import TabNav from '../src/components/TabNav';
-import Tab from '../src/components/Tab';
-import './App.css'
+import axios from 'axios';
 export default function App() {
-  const [selected,setSelected] = useState('Home');
 
-  const setSelectedFunction = (tab)=>{
-    setSelected(tab);
+  const [ selectedFile,setSelectedFile ] = useState(null);
+
+  const handleFileUpload = (e)=>{
+    setSelectedFile(e.target.files[0]);
   }
+
+const uploadedfile=()=>{
+      if(selectedFile !==null ){
+       return (<div>
+                <p>File Name is: {selectedFile.name}</p>
+                <p>File Name is: {selectedFile.type}</p>
+              </div>)
+     }
+   }
+
+   const handleSubmit = () =>{
+    // Create an object of formData
+    const formData = new FormData();
+
+    // Update the formData object
+    formData.append(
+      "myFile",
+      selectedFile,
+      selectedFile.name
+    );
+
+    // Details of the uploaded file
+    console.log(selectedFile);
+  }
+
   return (
-    <div className="container mt-4">
-      <TabNav tabs={['Home','Settings','Profile']} selected={selected} setSelected={ setSelectedFunction }>
-      <Tab isSelected={ selected === 'Home' }>
-            <p>Some test text</p>
-          </Tab>
-          <Tab isSelected={ selected === 'Settings' }>
-            <h1>More test text</h1>
-          </Tab>
-          <Tab isSelected={ selected === 'Profile' }>
-            <ul>
-              <li>List test 1</li>
-              <li>List test 2</li>
-              <li>List test 3</li>
-            </ul>
-          </Tab>
-      </TabNav>
+    <div className="container">
+      <h1> File Upload </h1>
+      <div className="row">
+          <input type="file" onChange={ handleFileUpload }/>
+          <button className="btn btn-outline-primary" onClick={ handleSubmit }>Upload</button>
+      </div>
+      {uploadedfile()}
     </div>
   )
 }
