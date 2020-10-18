@@ -40,7 +40,7 @@ const App = () => {
     if(files && files.length > 0){
 
       if(files.length > 5){
-        toast.warning('File Count exceeds 3');
+        toast.warning(`File Count exceeds 5`);
         setFilecountflag(false)
         setFiles([]);
         return;
