@@ -11,7 +11,7 @@ var storage = multer.diskStorage({
 })
 app.use(cors());
 
-var upload = multer({storage}).array('file');
+var upload = multer({storage}).array('file',5);
 
 app.get('/',function(req,res){
     return res.send('Hello Server')
@@ -20,8 +20,10 @@ app.get('/',function(req,res){
 app.post('/upload',function(req, res) {
   upload(req,res,(err)=>{
     if(err instanceof multer.MulterError){
+      console.log(`error in uploading: ${err}`)
       return res.status(500).json(err)
     }else if(err){
+      console.log(`general error in uploading: ${err}`)
       return res.status(500).json(err)
     }
     return res.status(200).send(req.file);

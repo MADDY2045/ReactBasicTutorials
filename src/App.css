@@ -7,7 +7,7 @@
   width: 50%!important;
   height:300px!important;
   margin: 100px auto;
-}
+  }
 
 
 
@@ -32,15 +32,17 @@ i{
 
 #upload-btn{
   position: absolute;
-  left:1100px;
+  left:1150px;
   padding: 10px;
   width: 150px;
   box-shadow: 4px 8px 10px #888888
 }
 
 .list-group{
-  position: absolute;
 
+  overflow-y: auto;
+  height: 200px;
+  justify-content: center;
 }
 
 #trash-icon{
@@ -53,9 +55,3 @@ i{
     font-size: smaller;
   }
 
-  .progress-bar{
-    position: absolute;
-    top:180px;
-    left:350px;
-    color: blue;
-  }
