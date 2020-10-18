@@ -3,6 +3,7 @@ import './App.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { Progress } from 'reactstrap';
 
 const App = () => {
     const [ files,setFiles ] = useState([]);
@@ -83,18 +84,14 @@ const App = () => {
          for(var x = 0; x< Array.from(files).length; x++) {
            data.append('file', Array.from(files)[x])
          }
-         for(let obj in data){
-           console.log(`obj is ${data['entries']}`);
-         }
-         axios.post("http://localhost:6090/upload", data, {
-          onUploadProgress: ProgressEvent => {
-            setLoaded((ProgressEvent.loaded / ProgressEvent.total*100)            )
-          },
-        })
+
+         axios.post("http://localhost:6090/upload", data,
+         {
+          onUploadProgress: ProgressEvent =>setLoaded(ProgressEvent.loaded / ProgressEvent.total*100)
+          })
           .then(res => {
             // then print response status
-            console.log(res.data);
-            toast.success('upload success')
+           toast.success('upload success')
           })
           .catch(err => { // then print response status
             toast.error('upload fail')
@@ -119,8 +116,10 @@ const App = () => {
          })}
         </ul>:null
       }
-
-       </div>
+      <div className="progress-bar">
+      <Progress max="100" color="warning" value={loaded} >{Math.round(loaded,2) }%</Progress>
+      </div>
+   </div>
        );
 }
 

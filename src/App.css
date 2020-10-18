@@ -52,3 +52,10 @@ i{
   li{
     font-size: smaller;
   }
+
+  .progress-bar{
+    position: absolute;
+    top:180px;
+    left:350px;
+    color: blue;
+  }
