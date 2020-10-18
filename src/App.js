@@ -1,13 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useCallback,useState } from 'react';
 import { useDropzone } from 'react-dropzone'
 import './App.css';
 
 const App = () => {
+  const [files,setFiles] = useState([])
   const maxSize = 1048576;
-
   const onDrop = useCallback(acceptedFiles => {
     console.log(acceptedFiles);
-  }, []);
+    setFiles([...files,...acceptedFiles]);
+  }, [files]);
 
   const { isDragActive, getRootProps, getInputProps, isDragReject, acceptedFiles, rejectedFiles } = useDropzone({
     onDrop,
@@ -19,7 +20,7 @@ const App = () => {
   const isFileTooLarge = rejectedFiles && rejectedFiles.length > 0 && rejectedFiles[0].size > maxSize;
 
   const deleteOption =(dataindex)=>{
-    acceptedFiles.filter((item,index)=> index !== dataindex)
+    return setFiles(files.filter((item,index)=> index !== dataindex))
   }
 
   return (
@@ -37,7 +38,7 @@ const App = () => {
       </div>
       <div className="uploadedfile-list">
       <ul className="list-group mt-2">
-        {acceptedFiles.length > 0 && acceptedFiles.map((acceptedFile,index) => (
+        {files.length > 0 && files.map((acceptedFile,index) => (
         <li key={index} onClick={ ()=>deleteOption(index) } className="list-group-item list-group-item-success">
         {acceptedFile.name}<i className="fa fa-trash"/>
       </li>))}
