@@ -1,142 +1,50 @@
-import React,{ useState,useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
-import { Progress } from 'reactstrap';
+import React, { useCallback } from 'react';
+import { useDropzone } from 'react-dropzone'
 import './App.css';
 
 const App = () => {
-    const [ files,setFiles ] = useState([]);
-    const [filesizeflag,setFilesizeflag] = useState(false);
-    const [filetypeflag,setFiletypeflag] = useState(false);
-    const [filecountflag,setFilecountflag] = useState(false);
-    const [validatorflag,setValidatorflag] = useState(false);
-    const [loaded,setLoaded] = useState(0);
-    const [progressflag,setProgressflag ] = useState(false);
+  const maxSize = 1048576;
 
-    // useEffect(()=>{
-    //   if(loaded === 0){
-    //     setProgressflag(false)
-    //   }else{
-    //     setProgressflag(true)
-    //   }
-    // },[loaded])
-    useEffect(() => {
-     if(filesizeflag && filetypeflag && filecountflag){
-      setValidatorflag(true)
-     }else{
-      setValidatorflag(false)
-     }
-     if(files.length === 0 || files.length === undefined){
-      setValidatorflag(false);
-      setFiletypeflag(false);
-      setFilesizeflag(false);
-      setFilecountflag(false);
-      setProgressflag(false);
-     }
-    }, [filesizeflag,filetypeflag,filecountflag,files]);
+  const onDrop = useCallback(acceptedFiles => {
+    console.log(acceptedFiles);
+  }, []);
 
-   useEffect(() => {
-    if(files && files.length > 0){
+  const { isDragActive, getRootProps, getInputProps, isDragReject, acceptedFiles, rejectedFiles } = useDropzone({
+    onDrop,
+    accept: 'image/png,application/pdf',
+    minSize: 0,
+    maxSize
+  });
 
-      if(files.length > 5){
-        toast.warning(`File Count exceeds 5`);
-        setFilecountflag(false)
-        setFiles([]);
-        return;
-      }else{
-        console.log(`files: ${files}`);
-        setFilecountflag(true)
-      }
+  const isFileTooLarge = rejectedFiles && rejectedFiles.length > 0 && rejectedFiles[0].size > maxSize;
 
-      Array.from(files).map(item=>{
-        if(item.size > 350000 ){
-          toast.warning(`file ${item.name} exceeds size`);
-          setFilesizeflag(false);
-          return setFiles([]);
-          }
-          else{
-          return setFilesizeflag(true);
-        }
-      })
-
-      Array.from(files).map(item=>{
-        if(item.type !== 'application/pdf' ){
-          toast.warning('invalid file type');
-          setFiletypeflag(false);
-          return setFiles([])
-        }else{
-          return setFiletypeflag(true);
-        }
-      })
-
-    }
-   }, [files]);
-
-  const handleFileUpload =(e)=>{
-    setFiles(e.target.files)
-    }
-
-    const deleteOption=(index)=>{
-      console.log(`clicked ${index}`);
-      setFiles( Array.from(files).filter((item,index1)=> {
-        console.log(`item.index is ${index1}`);
-        return index1 !== index
-      }));
-    }
-
-    const loadFiles = ()=>{
-      if(files.length === 0 || files.length === undefined){
-          setValidatorflag(false);
-          return;
-         }
-         setProgressflag(true);
-
-         const data = new FormData()
-         for(var x = 0; x< Array.from(files).length; x++) {
-           data.append('file', Array.from(files)[x])
-         }
-        axios.post("http://localhost:6090/upload", data,
-         {
-          onUploadProgress: ProgressEvent =>setLoaded(ProgressEvent.loaded / ProgressEvent.total*100)
-          })
-          .then(res => {
-            // then print response status
-           toast.success('upload success');
-           setTimeout(()=>{
-              setFiles([]);
-           },4000)
-           })
-          .catch(err => { // then print response status
-            toast.error('upload fail')
-          })
-    }
-
+  const deleteOption =(dataindex)=>{
+    acceptedFiles.filter((item,index)=> index !== dataindex)
+  }
 
   return (
-    <div>
-    <div className="container fileupload-main-container">
-      {!validatorflag ? <div>
-     <input type="file" multiple name="file" id="file" className="inputfile" onChange={ handleFileUpload }/>
-      <label htmlFor="file" id="choosefile"><i className="fa fa-upload" aria-hidden="true"></i> Choose a file</label>
-      </div>:null}
-       {filesizeflag && filetypeflag && filecountflag ?
-       <button onClick={ loadFiles } id="upload-btn" className="btn btn-warning">Upload</button>:null}
-       { validatorflag ?
-       <ul className="list-group">
-         {Array.from(files).map((item,index)=>{
-           return <li id="selectedlist" key={index} className="list-group-item">{item.name}
-           <i id="trash-icon"onClick={()=>deleteOption(index)} className="fa fa-trash fa-lg" aria-hidden="true"></i></li>
-         })}
-        </ul>:null
-      }
-       <ToastContainer />
-       </div>
-      <div id="progress-bar" style={{width:'40%',position:'absolute',top:'350px',left:'550px'}}>
-        { validatorflag && progressflag ? <Progress max="100" animated color="success" value={loaded} >{Math.round(loaded,2) }%</Progress>:null}
+    <div className="container text-center mt-5">
+      <div {...getRootProps()}>
+        <input {...getInputProps()}/>
+        {!isDragActive && 'Click here or drop a file to upload!'}
+        {isDragActive && !isDragReject && "Drop it like it's hot!"}
+        {isDragReject && "File type not accepted, sorry!"}
+        {isFileTooLarge && (
+          <div className="text-danger mt-2">
+            File is too large.
+          </div>
+        )}
       </div>
+      <div className="uploadedfile-list">
+      <ul className="list-group mt-2">
+        {acceptedFiles.length > 0 && acceptedFiles.map((acceptedFile,index) => (
+        <li key={index} onClick={ ()=>deleteOption(index) } className="list-group-item list-group-item-success">
+        {acceptedFile.name}<i className="fa fa-trash"/>
+      </li>))}
+      </ul>
       </div>
-       );
-}
+     </div>
+  );
+};
 
 export default App;
