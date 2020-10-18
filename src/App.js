@@ -1,118 +1,127 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import {Progress} from 'reactstrap';
+import React,{ useState,useEffect } from 'react';
+import './App.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-class App extends Component {
-  constructor(props) {
-    super(props);
-      this.state = {
-        selectedFile: null,
-        loaded:0
+import axios from 'axios';
+
+const App = () => {
+    const [ files,setFiles ] = useState([]);
+    const [filesizeflag,setFilesizeflag] = useState(false);
+    const [filetypeflag,setFiletypeflag] = useState(false);
+    const [filecountflag,setFilecountflag] = useState(false);
+    const [validatorflag,setValidatorflag] = useState(false);
+    const [loaded,setLoaded] = useState(0)
+    useEffect(() => {
+     if(filesizeflag && filetypeflag && filecountflag){
+      setValidatorflag(true)
+     }else{
+      setValidatorflag(false)
+     }
+     if(files.length === 0 || files.length === undefined){
+      setValidatorflag(false);
+      setFiletypeflag(false);
+      setFilesizeflag(false);
+      setFilecountflag(false)
+     }
+    }, [filesizeflag,filetypeflag,filecountflag,files]);
+
+   useEffect(() => {
+    if(files && files.length > 0){
+
+      if(files.length > 3){
+        toast.warning('File Count exceeds 3');
+        setFilecountflag(false)
+        setFiles([]);
+        return;
+      }else{
+        console.log(`files: ${files}`);
+        setFilecountflag(true)
       }
 
-  }
-  checkMimeType=(event)=>{
-    //getting file object
-    let files = event.target.files
-    //define message container
-    let err = []
-    // list allow mime type
-   const types = ['image/png', 'image/jpeg', 'image/gif','application/pdf','application/pdf','.csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']
-    // loop access array
-    for(var x = 0; x<files.length; x++) {
-     // compare file type find doesn't matach
-         if (types.every(type => files[x].type !== type)) {
-         // create error message and assign to container
-         err[x] = files[x].type+' is not a supported format\n';
-       }
-     };
-     for(var z = 0; z<err.length; z++) {// if message not same old that mean has error
-         // discard selected file
-        toast.error(err[z])
-        event.target.value = null
+      Array.from(files).map(item=>{
+        if(item.size > 35000 ){
+          toast.warning(`file ${item.name} exceeds size`);
+          setFilesizeflag(false);
+          return setFiles([]);
+          }
+          else{
+          setFilesizeflag(true);
+        }
+      })
+
+      Array.from(files).map(item=>{
+        if(item.type !== 'application/pdf' ){
+          toast.warning('invalid file type');
+          setFiletypeflag(false);
+          return setFiles([])
+        }else{
+          setFiletypeflag(true);
+        }
+      })
+
     }
-   return true;
-  }
-  maxSelectFile=(event)=>{
-    let files = event.target.files
-        if (files.length > 3) {
-           const msg = 'Only 3 images can be uploaded at a time'
-           event.target.value = null
-           toast.warn(msg)
-           return false;
-      }
-    return true;
- }
- checkFileSize=(event)=>{
-  let files = event.target.files
-  let size = 2000000
-  let err = [];
-  for(var x = 0; x<files.length; x++) {
-  if (files[x].size > size) {
-   err[x] = files[x].type+'is too large, please pick a smaller file\n';
- }
-};
-for(var z = 0; z<err.length; z++) {// if message not same old that mean has error
-  // discard selected file
- toast.error(err[z])
- event.target.value = null
-}
-return true;
-}
-onChangeHandler=event=>{
-  var files = event.target.files;
-  //event.stopPropagation();
-  if(this.maxSelectFile(event) && this.checkMimeType(event) &&    this.checkFileSize(event)){
-  // if return true allow to setState
-     this.setState({
-     selectedFile: files,
-     loaded:0
-  })
-}
-}
-  onClickHandler = () => {
-    const data = new FormData()
-    for(var x = 0; x<this.state.selectedFile.length; x++) {
-      data.append('file', this.state.selectedFile[x])
+   }, [files]);
+
+  const handleFileUpload =(e)=>{
+    setFiles(e.target.files)
     }
-    axios.post("http://localhost:8000/upload", data, {
-      onUploadProgress: ProgressEvent => {
-        this.setState({
-          loaded: (ProgressEvent.loaded / ProgressEvent.total*100),
+
+    const deleteOption=(index)=>{
+      console.log(`clicked ${index}`);
+      setFiles( Array.from(files).filter((item,index1)=> {
+        console.log(`item.index is ${index1}`);
+        return index1 !== index
+      }));
+    }
+
+    const loadFiles = ()=>{
+      if(files.length === 0 || files.length === undefined){
+          setValidatorflag(false);
+          return;
+         }
+         const data = new FormData()
+         for(var x = 0; x< Array.from(files).length; x++) {
+           data.append('file', Array.from(files)[x])
+         }
+         for(let obj in data){
+           console.log(`obj is ${data['entries']}`);
+         }
+         axios.post("http://localhost:6090/upload", data, {
+          onUploadProgress: ProgressEvent => {
+            setLoaded((ProgressEvent.loaded / ProgressEvent.total*100)            )
+          },
         })
-      },
-    })
-      .then(res => { // then print response status
-        toast.success('upload success')
-      })
-      .catch(err => { // then print response status
-        toast.error('upload fail')
-      })
+          .then(res => {
+            // then print response status
+            console.log(res.data);
+            toast.success('upload success')
+          })
+          .catch(err => { // then print response status
+            toast.error('upload fail')
+          })
     }
 
-  render() {
-    return (
-      <div className="container">
-	      <div className="row">
-      	  <div className="offset-md-3 col-md-6">
-               <div className="form-group files">
-                <label>Upload Your File </label>
-                <input type="file" className="form-control" multiple onChange={this.onChangeHandler}/>
-              </div>
-              <div className="form-group">
-              <ToastContainer />
-              <Progress max="100" color="success" value={this.state.loaded} >{Math.round(this.state.loaded,2) }%</Progress>
 
-              </div>
+  return (
+    <div className="container fileupload-main-container">
+       <ToastContainer />
+       {!validatorflag ? <div>
+     <input type="file" multiple name="file" id="file" className="inputfile" onChange={ handleFileUpload }/>
+      <label htmlFor="file" id="choosefile"><i className="fa fa-upload" aria-hidden="true"></i> Choose a file</label>
+      </div>:null}
+       {filesizeflag && filetypeflag && filecountflag ?
+       <button onClick={ loadFiles } id="upload-btn" className="btn btn-warning">Upload</button>:null}
+       { validatorflag ?
+       <ul className="list-group">
+         {Array.from(files).map((item,index)=>{
+           return <li id="selectedlist" key={index} className="list-group-item">{item.name}
+           <i id="trash-icon"onClick={()=>deleteOption(index)} className="fa fa-trash fa-lg" aria-hidden="true"></i></li>
+         })}
+        </ul>:null
+      }
 
-              <button type="button" className="btn btn-success btn-block" onClick={this.onClickHandler}>Upload</button>
-
-	      </div>
-      </div>
-      </div>
-    );
-  }
+       </div>
+       );
 }
 
 export default App;
