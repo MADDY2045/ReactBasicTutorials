@@ -1,20 +1,13 @@
 import React from 'react';
 import { useGoogleLogin,useGoogleLogout } from 'react-google-login';
-import moment from 'moment';
+import axios from 'axios';
 
 const clientId = '485008776010-mj3o94klbaj6kq2885u72lft8v999p7s.apps.googleusercontent.com';
 
 const HooksWay = () => {
 
     const onSuccess = async (res)=>{
-        console.log(`Login Successful!! CurrentUser:${JSON.stringify(res.profileObj,null,2)}`);
         var reloadResponse = await res.reloadAuthResponse();
-        console.log(`reload response is ${JSON.stringify(reloadResponse,null,2)}`);
-        var expirytime = await reloadResponse.expires_at ;
-        var momenttime = moment.utc(expirytime).add(4.5, 'hours').format('dddd, MMMM Do, YYYY h:mm:ss A');
-        console.log(`momenttime is ${momenttime}`);
-        let today =  Date.now();
-        console.log(`today is ${moment(today).format('dddd, MMMM Do, YYYY h:mm:ss A')}`)
         let refreshTiming = (res.tokenObj.expires_in || 3600-5 *60) * 1000;
         const refreshToken= async()=>{
           const newAuthRes = await res.reloadAuthResponse();
@@ -23,6 +16,11 @@ const HooksWay = () => {
           setTimeout(refreshToken,refreshTiming);
         }
         setTimeout(refreshToken,refreshTiming);
+        axios.post('http://localhost:7001/handleuser',{data:reloadResponse.id_token})
+        .then(response=>{
+            console.log(response.data);
+        })
+        .catch(err=>console.log(`error in handling token id ${err}`))
       }
 
       const onFailure = (res)=>{
