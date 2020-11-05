@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGoogleLogin,useGoogleLogout } from 'react-google-login';
+import { GoogleLogin,useGoogleLogin,useGoogleLogout } from 'react-google-login';
 import axios from 'axios';
 
 const clientId = '485008776010-mj3o94klbaj6kq2885u72lft8v999p7s.apps.googleusercontent.com';

@@ -38,11 +38,11 @@ const App = () => {
       <h1>React Google Login</h1>
       <GoogleLogin
       clientId={clientId}
-      buttonText="Login"
+      buttonText="Login With Google"
       onSuccess={onSuccess}
       onFailure={onFailure}
       cookiePolicy={'single_host_origin'}
-      style={{marginTop:'100px'}}
+
       isSignedIn={true}
       />
       <GoogleLogout
