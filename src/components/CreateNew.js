@@ -9,6 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormInput from '../components/FormInput';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +26,14 @@ const useStyles = makeStyles((theme) => ({
         outline: 'none',
       }
     },
+  },
+  button:{
+    '&:active': {
+      outline: 'none',
+    },
+    '&:focus': {
+      outline: 'none',
+    }
   }
 }));
 
@@ -83,7 +92,13 @@ const createNewTemplate=()=>{
     console.log(`final data is ${JSON.stringify(data,null,2)}`);
     setTimeout(()=>{
       setOpen(false);
-   },0)
+   },0);
+   let url = 'https://2ecc6220-e7a1-4dc4-9928-4a78b990e407:4667110b-67a1-4b98-a3dd-7045ac56c796@api.karix.io/whatsapp/template/'
+   axios.post('/whatsapp/template',{data})
+   .then(response=>{
+      console.log(`response is ${JSON.stringify(response.data,null,2)}`);
+   })
+   .catch(err=>console.log(`error in creation of template ${err}`))
   }else{
     alert("pls enter all values");
     return;
@@ -110,10 +125,10 @@ const createNewTemplate=()=>{
             <FormInput label="Text" name="Text"  handleChange={(e)=>{handleChange("Text",e)}}/>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button className={classes.button} onClick={handleClose} color="primary">
             CANCEL
           </Button>
-          <Button onClick={createNewTemplate} color="primary">
+          <Button className={classes.button} onClick={createNewTemplate} color="primary">
             CREATE
           </Button>
         </DialogActions>
