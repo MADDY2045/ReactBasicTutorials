@@ -3,70 +3,79 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Container from '@material-ui/core/Container';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
+import ListSharpIcon from '@material-ui/icons/ListSharp';
+import ContactSupportSharpIcon from '@material-ui/icons/ContactSupportSharp';
+import PublishSharpIcon from '@material-ui/icons/PublishSharp';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
+listitem:{
+        paddingTop:theme.spacing(2),
+        minHeight:70,
+        maxHeight:70,
+       fontSize:'8px'
+      }
 }));
 
-const SimpleList=()=>{
+const SimpleList=(props)=>{
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <List component="nav" aria-label="main mailbox folders" >
-        <ListItem button style={{padding:"20px"}}v>
+    <React.Fragment>
+        <Container className={classes.list} >
+        <div style={{ backgroundColor: '#FFF',width:250 }} >
+      <List component= { "nav" } aria-label="main mailbox folders" className={classes.listmain}>
+        <ListItem onClick={ props.handleClick } button className={classes.listitem}>
           <ListItemIcon>
-            <InboxIcon />
+            <ListSharpIcon />
           </ListItemIcon>
-          <ListItemText primary="Inbox" />
+          <ListItemText primary="List All Templates" />
         </ListItem>
         <Divider />
-        <ListItem button style={{padding:"20px"}}>
+        <ListItem button className={classes.listitem}>
+          <ListItemIcon>
+          <ListSharpIcon/>
+          </ListItemIcon>
+          <ListItemText primary="List Template by Id" />
+        </ListItem>
+        <Divider />
+        <ListItem button className={classes.listitem}>
+          <ListItemIcon>
+          <ListSharpIcon/>
+          </ListItemIcon>
+          <ListItemText primary="List All Whatsapp Number" />
+        </ListItem>
+        <Divider />
+        <ListItem button className={classes.listitem}>
+          <ListItemIcon>
+          <ContactSupportSharpIcon />
+          </ListItemIcon>
+          <ListItemText primary="Get Status of a template" />
+        </ListItem>
+        <Divider />
+        <ListItem button className={classes.listitem}>
+          <ListItemIcon>
+            <PublishSharpIcon />
+          </ListItemIcon>
+          <ListItemText primary="Upload Photo" />
+        </ListItem>
+        <Divider />
+        <ListItem button className={classes.listitem}>
           <ListItemIcon>
             <DraftsIcon />
           </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </ListItem>
-        <Divider />
-        <ListItem button style={{padding:"20px"}}>
-          <ListItemIcon>
-            <DraftsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </ListItem>
-        <Divider />
-        <ListItem button style={{padding:"20px"}}>
-          <ListItemIcon>
-            <DraftsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </ListItem>
-        <Divider />
-        <ListItem button style={{padding:"20px"}}>
-          <ListItemIcon>
-            <DraftsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </ListItem>
-        <Divider />
-        <ListItem button style={{padding:"20px"}}>
-          <ListItemIcon>
-            <DraftsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
+          <ListItemText primary="Reserved" />
         </ListItem>
       </List>
-      <Divider />
-
-    </div>
+      </div>
+    </Container>
+</React.Fragment>
   );
 }
 

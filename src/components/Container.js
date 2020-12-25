@@ -1,23 +1,29 @@
-import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
+import React,{ useState } from 'react';
 import Container from '@material-ui/core/Container';
 import AppBar from './AppBar';
 import MainList from '../components/MainList';
 import CreateNew from './CreateNew';
+import CardComponent from './CardComponent';
 
 const SimpleContainer=()=>{
+
+  const [ listAll,setListAll ] = useState(false);
+  const ListAllTemplates=()=>{
+    console.log('tested');
+    setListAll(true);
+  }
+
   return (
-    <React.Fragment >
-        <CssBaseline />
-        <Container fixed >
-        <Typography component="div" style={{ backgroundColor: '#a0bfde', height: '90vh' }} >
+    <div >
+       <Container fixed >
+        <div style={{ backgroundColor: '#a0bfde', minHeight: '90vh' }} >
         <AppBar />
-        <MainList />
+        <MainList handleClick={ ListAllTemplates } />
         <CreateNew />
-        </Typography>
+        <CardComponent listAll={ listAll } />
+        </div>
     </Container>
-    </React.Fragment>
+    </div>
   );
 }
 
