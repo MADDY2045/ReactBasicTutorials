@@ -94,7 +94,7 @@ const createNewTemplate=()=>{
       setOpen(false);
    },0);
    let url = 'https://2ecc6220-e7a1-4dc4-9928-4a78b990e407:4667110b-67a1-4b98-a3dd-7045ac56c796@api.karix.io/whatsapp/template/'
-   axios.post('/whatsapp/template',{data})
+   axios.post(url,{data})
    .then(response=>{
       console.log(`response is ${JSON.stringify(response.data,null,2)}`);
    })

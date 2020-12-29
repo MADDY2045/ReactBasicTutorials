@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy":"https://2ecc6220-e7a1-4dc4-9928-4a78b990e407:4667110b-67a1-4b98-a3dd-7045ac56c796@api.karix.io",
+  "proxy":"http://127.0.0.1:8080",
   "dependencies": {
     "@date-io/date-fns": "1.3.13",
     "@material-ui/core": "4.11.0",
@@ -19,7 +19,6 @@
     "dateformat": "^4.3.1",
     "express": "4.17.1",
     "google-auth-library": "6.1.3",
-    "http-proxy-middleware": "^1.0.6",
     "material-ui": "0.20.2",
     "moment": "2.29.1",
     "react": "16.13.1",
