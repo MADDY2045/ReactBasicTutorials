@@ -84,16 +84,17 @@ const handleChange=(name,e)=>{
 const createNewTemplate=()=>{
   let data={}
   if(category && whatsappUid && name && languagecode && text){
-    data.Category = category;
-    data.WhatsappUid = whatsappUid;
-    data.Name = name;
-    data.Languagecode = languagecode;
-    data.Text = text;
+    data.category = category;
+    data.whatsapp_account_uid = whatsappUid;
+    data.name = name;
+    data.language_code = languagecode;
+    data.text = text;
     console.log(`final data is ${JSON.stringify(data,null,2)}`);
     setTimeout(()=>{
       setOpen(false);
    },0);
-   let url = 'https://2ecc6220-e7a1-4dc4-9928-4a78b990e407:4667110b-67a1-4b98-a3dd-7045ac56c796@api.karix.io/whatsapp/template/'
+
+   let url = 'http://localhost:7001/createtemplate'
    axios.post(url,{data})
    .then(response=>{
       console.log(`response is ${JSON.stringify(response.data,null,2)}`);

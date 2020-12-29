@@ -35,16 +35,30 @@ const SimpleCard=(props)=>{
 
   return (
       <div className={classes.root}>
-        { props.listAll ?
+        { props.listAllFlag ? props.listAll.length>0 ?
         <Card >
         <CardContent>
           <div className={classes.title} >
-          <List component= {"div"} aria-label="main mailbox folders" className={classes.listmain}>
+          <List component= {"div"} className={classes.listmain}>
           <ListItem button className={classes.listitem}>
             <ListItemIcon>
               <LabelOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary="List All Templates" />
+          </ListItem>
+          <Divider />
+          </List>
+          </div>
+        </CardContent>
+      </Card>:<Card >
+        <CardContent>
+          <div className={classes.title} >
+          <List component= {"div"} className={classes.listmain}>
+          <ListItem button className={classes.listitem}>
+            <ListItemIcon>
+              <LabelOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary="Oops no templates" />
           </ListItem>
           <Divider />
           </List>
