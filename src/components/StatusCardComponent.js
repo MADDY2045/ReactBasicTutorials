@@ -39,13 +39,13 @@ const useStyles = makeStyles((theme) => ({
 })
 )
 
-const SimpleCard=(props)=>{
+const SimpleStatusCard=(props)=>{
   const classes = useStyles();
 
 
   return (
       <div className={classes.root}>
-        { props.listAllFlag ? props.listAll.length>0 ?
+        { props.statusAllFlag ? props.listAll.length>0 ?
         <Card >
         <CardContent>
           <div className={classes.title} >
@@ -54,15 +54,9 @@ const SimpleCard=(props)=>{
         <TableHead>
           <TableRow>
             <TableCell>UID</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Category</TableCell>
             <TableCell>Whatsapp UID</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell>Language Code</TableCell>
-            <TableCell>Attachment</TableCell>
-            <TableCell>Text</TableCell>
-            <TableCell>Reason</TableCell>
-          </TableRow>
+        </TableRow>
         </TableHead>
         <TableBody>
           { props.listAll.map((item,index)=>{
@@ -70,33 +64,14 @@ const SimpleCard=(props)=>{
               <TableCell component="th" scope="row">
                 {item.uid}
               </TableCell>
-              <TableCell component="th" scope="row">
-                {item.status}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {item.category}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {item.whatsapp_account_uid}
+             <TableCell onClick={ ()=>props.showModalStatus(item.uid) } component="th" scope="row" style={{cursor:"pointer"}}>
+               <h6><u>{item.whatsapp_account_uid}</u></h6>
               </TableCell>
               <TableCell component="th" scope="row">
                 {item.name}
               </TableCell>
-              <TableCell component="th" scope="row">
-                {item.language_code}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {item.attachment}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {item.text}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {item.rejected_reason}
-              </TableCell>
-            </TableRow>
+             </TableRow>
           })}
-
         </TableBody>
       </Table>
     </TableContainer>
@@ -123,4 +98,4 @@ const SimpleCard=(props)=>{
   );
 }
 
-export default  SimpleCard;
+export default  SimpleStatusCard;

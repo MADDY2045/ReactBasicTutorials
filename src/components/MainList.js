@@ -52,7 +52,7 @@ const SimpleList=(props)=>{
           <ListItemText primary="List All Whatsapp Number" />
         </ListItem>
         <Divider />
-        <ListItem button className={classes.listitem}>
+        <ListItem onClick={ props.getTemplateStatus } button className={classes.listitem}>
           <ListItemIcon>
           <ContactSupportSharpIcon />
           </ListItemIcon>
