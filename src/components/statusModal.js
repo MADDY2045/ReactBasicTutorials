@@ -7,6 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
+import Stepper from '../components/statusStepper';
 
 function PaperComponent(props) {
   return (
@@ -31,9 +32,9 @@ const DraggableDialog=(props)=>{
           Current Status
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            { props.statusUid.length >0 ? "yes":"nothing to display" }
-          </DialogContentText>
+
+            { props.statusUid.length >0 ? <Stepper data={ props.statusUid } />:"nothing to display" }
+
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={ props.handleClose } color="primary">

@@ -37,7 +37,7 @@ const SimpleContainer=()=>{
     .then(response=>{
       console.log(response.data);
       if(response.data.message === 'success'){
-        if(response.data.data.error){
+        if(!response.data.data.error){
           setStatusUid([])
         }else{
           setStatusUid([{
@@ -46,7 +46,7 @@ const SimpleContainer=()=>{
             },
             "data": {
               "uid": "3e4e654c-f4ad-430d-b41e-d71068ecf948",
-              "status": "pending",
+              "status": "approved",
               "category": "account_update",
               "whatsapp_account_uid": "3e4e654c-f4ad-430d-b41e-d71068ecf948",
               "name": "template_1",
