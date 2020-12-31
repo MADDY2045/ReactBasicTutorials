@@ -13,8 +13,6 @@ const SimpleContainer=()=>{
   const [ listAll,setListAll ] = useState([]);
   const [ listAllFlag,setListAllFlag ] = useState(false);
   const [ statusAllFlag,setStatusAllFlag ] = useState(false);
-  const [ statusModal,setStatusModal ] = useState(false);
-  const [ uid,setUid ] = useState('');
   const [open, setOpen] = React.useState(false);
   const [ statusUid, setStatusUid ] = React.useState({});
 
@@ -32,7 +30,6 @@ const SimpleContainer=()=>{
   };
 
   const showModalStatus=(uid)=>{
-    setUid(uid);
     axios.get(`http://localhost:7001/getstatus/${uid}`)
     .then(response=>{
       console.log(response.data);
@@ -47,7 +44,7 @@ const SimpleContainer=()=>{
             },
             "data": {
               "uid": "3e4e654c-f4ad-430d-b41e-d71068ecf948",
-              "status": "rejected",
+              "status": "approved",
               "category": "account_update",
               "whatsapp_account_uid": "3e4e654c-f4ad-430d-b41e-d71068ecf948",
               "name": "template_1",
@@ -196,7 +193,7 @@ return (
         <CreateNew />
         <CardComponent listAll={ listAll } listAllFlag = { listAllFlag } />
         <StatusCardComponent listAll={ listAll } statusAllFlag = { statusAllFlag } showModalStatus={ showModalStatus } />
-        <StatusModal open={ open } handleClickOpen={ handleClickOpen } handleClose={ handleClose } statusModal={ statusModal } statusUid={ statusUid }/>
+        <StatusModal open={ open } handleClickOpen={ handleClickOpen } handleClose={ handleClose } statusUid={ statusUid }/>
         </div>
     </Container>
     </div>

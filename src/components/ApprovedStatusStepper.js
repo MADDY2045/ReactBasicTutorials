@@ -8,7 +8,6 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Check from '@material-ui/icons/Check';
 import StepConnector from '@material-ui/core/StepConnector';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 
 const useQontoStepIconStyles = makeStyles({
