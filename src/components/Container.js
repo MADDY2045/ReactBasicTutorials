@@ -16,7 +16,7 @@ const SimpleContainer=()=>{
   const [ statusModal,setStatusModal ] = useState(false);
   const [ uid,setUid ] = useState('');
   const [open, setOpen] = React.useState(false);
-  const [ statusUid, setStatusUid ] = React.useState([]);
+  const [ statusUid, setStatusUid ] = React.useState({});
 
   const handleClickOpen = () => {
     setTimeout(()=>{
@@ -40,13 +40,14 @@ const SimpleContainer=()=>{
         if(!response.data.data.error){
           setStatusUid([])
         }else{
-          setStatusUid([{
+          //setStatusUid(response.data.data)
+          setStatusUid({
             "meta": {
               "request_uuid": "e54b13f5-0831-40f1-959f-e9c5a8ff2957"
             },
             "data": {
               "uid": "3e4e654c-f4ad-430d-b41e-d71068ecf948",
-              "status": "approved",
+              "status": "rejected",
               "category": "account_update",
               "whatsapp_account_uid": "3e4e654c-f4ad-430d-b41e-d71068ecf948",
               "name": "template_1",
@@ -55,7 +56,7 @@ const SimpleContainer=()=>{
               "text": "Hi {{*}}, your OTP is {{*}}",
               "rejected_reason": "string"
             }
-          }])
+          })
         }
          setTimeout(()=>{
             setOpen(true);

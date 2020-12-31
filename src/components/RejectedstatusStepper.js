@@ -16,7 +16,7 @@ const useQontoStepIconStyles = makeStyles({
     color: '#eaeaf0',
     display: 'flex',
     height: 22,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   active: {
     color: '#784af4',
@@ -160,7 +160,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Pending', 'Rejected', 'Approved'];
+  return ['Pending', 'Rejected'];
 }
 
 
@@ -171,22 +171,12 @@ const CustomizedSteppers=(props)=>{
   const steps = getSteps();
 
   useEffect(()=>{
-      console.log(`props are ${JSON.stringify(props.data[0].data.status,null,2)}`);
-      if(props.data[0].data.status){
-          setTimeout(()=>{
-        if(props.data[0].data.status === 'pending'){
-            setActiveStep(0)
-        }
-        if(props.data[0].data.status === 'rejected'){
-            setActiveStep(1)
-        }
-        if(props.data[0].data.status === 'approved'){
-            setActiveStep(2)
-        }
-    },1000)
-      }
+      //console.log(`props are ${JSON.stringify(props.data[0].data.status,null,2)}`);
+      setTimeout(()=>{
+        setActiveStep(1)
+      },1000)
 
-  },[props])
+},[])
 
   return (
   <Stepper className={classes.root} alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
