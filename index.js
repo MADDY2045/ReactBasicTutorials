@@ -31,7 +31,7 @@ const reducer = (state,action) =>{
 
 /* ----------------------let' s create a sample action--------------*/
 const BUY_CAKE = 'BUY_CAKE';
-
+const BUY_ICECREAM = 'BUY_ICECREAM';
 /* function buyCake is an action creator and an action should contain a type */
 function buyCake(){
     return {
@@ -40,11 +40,18 @@ function buyCake(){
     }
 }
 
+function buyIcecream(){
+    return {
+        type:BUY_ICECREAM
+    }
+}
+
 /*Now let's create a reducer to specify how the app's state changes in response to the actions sent to the store */
 //(previousState,action) => newState
 
 const initialState = {
-    numOfCakes:10
+    numOfCakes:10,
+    numOfIcecreams:20
 }
 
 const reducer = (state=initialState,action) => {
@@ -52,6 +59,10 @@ const reducer = (state=initialState,action) => {
         case BUY_CAKE: return {
             ... state,
             numOfCakes: state.numOfCakes - 1
+        }
+        case BUY_ICECREAM: return {
+            ... state,
+            numOfIcecreams: state.numOfIcecreams - 1
         }
         default: return state
     }
@@ -76,6 +87,8 @@ const unsubscribe = store.subscribe(()=>{
 store.dispatch(buyCake());//dispatches action creators which is the third responsibility
 store.dispatch(buyCake());
 store.dispatch(buyCake());
+store.dispatch(buyIcecream());
+store.dispatch(buyIcecream());
 
 unsubscribe();//satisfies fifth responsibility
 
