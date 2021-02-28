@@ -1,6 +1,19 @@
 const redux = require('redux');
+const reduxLogger = require('redux-logger');
+
 const createStore = redux.createStore;
 const combineReducers = redux.combineReducers;
+const applyMiddleware  = redux.applyMiddleware
+const logger = reduxLogger.createLogger();
+/*
+Middleware is the suggested functionality to extend Redux with custom functionality
+
+provides a third party extension between dispatching an action , and the moment it reaches the reducer
+
+use middleware for logging, crash reporting,performing asynchronous tasks etc...
+
+install redux-logger npm to access the midddleware
+*/
 /*
 General Entities:
 1) A "store" that holds the state of your application
@@ -93,11 +106,9 @@ const rootReducer = combineReducers({
     cake:cakeReducer,
     iceCream:icecreamReducer
 })
-const store = createStore(rootReducer);//satisfies 1st responsibility
+const store = createStore(rootReducer,applyMiddleware(logger));//satisfies 1st responsibility
 console.log('initial state',store.getState());//to check the second responsibility
-const unsubscribe = store.subscribe(()=>{
-    console.log('updated state',store.getState());//satisfies the fourth responsibility
-})
+const unsubscribe = store.subscribe(()=>{})
 store.dispatch(buyCake());//dispatches action creators which is the third responsibility
 store.dispatch(buyCake());
 store.dispatch(buyCake());
