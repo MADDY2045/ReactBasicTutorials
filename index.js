@@ -1,5 +1,6 @@
 const redux = require('redux');
 const createStore = redux.createStore;
+const combineReducers = redux.combineReducers;
 /*
 General Entities:
 1) A "store" that holds the state of your application
@@ -49,17 +50,26 @@ function buyIcecream(){
 /*Now let's create a reducer to specify how the app's state changes in response to the actions sent to the store */
 //(previousState,action) => newState
 
-const initialState = {
-    numOfCakes:10,
+const initialCakeState = {
+    numOfCakes:10
+}
+
+const initialIcecreamState = {
     numOfIcecreams:20
 }
 
-const reducer = (state=initialState,action) => {
+const cakeReducer = (state=initialCakeState,action) => {
     switch(action.type){
         case BUY_CAKE: return {
             ... state,
             numOfCakes: state.numOfCakes - 1
         }
+        default: return state
+    }
+}
+
+const icecreamReducer = (state=initialIcecreamState,action) => {
+    switch(action.type){
         case BUY_ICECREAM: return {
             ... state,
             numOfIcecreams: state.numOfIcecreams - 1
@@ -79,7 +89,11 @@ Responsibilities:
 Note:for this , we need to import reduxx at the top to access a method called createStore
 */
 
-const store = createStore(reducer);//satisfies 1st responsibility
+const rootReducer = combineReducers({
+    cake:cakeReducer,
+    iceCream:icecreamReducer
+})
+const store = createStore(rootReducer);//satisfies 1st responsibility
 console.log('initial state',store.getState());//to check the second responsibility
 const unsubscribe = store.subscribe(()=>{
     console.log('updated state',store.getState());//satisfies the fourth responsibility
