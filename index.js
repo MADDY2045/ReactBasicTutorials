@@ -6,6 +6,30 @@ const combineReducers = redux.combineReducers;
 const applyMiddleware  = redux.applyMiddleware
 const logger = reduxLogger.createLogger();
 /*
+Our Application
+fetches a list of users from an API end point and stores it in the redux store.
+let our state be {
+    loading:true,
+    data:[],
+    error:""
+}
+
+let our Actions be
+FETCH_USERS_REQUEST - fetch list of users
+FETCH_USERS_SUCCESS - fetched successfully
+FETCH_USERS_FAILURE - error fetching the data
+
+let our reducers be
+case:FETCH_USERS_REQUEST
+    loading:true
+case:FETCH_USERS_SUCCESS
+    loading:false
+    users:data(from API)
+case:FETCH_USERS_FAILURE
+    loading:false
+    error:error(from API)
+*/
+/*
 Middleware is the suggested functionality to extend Redux with custom functionality
 
 provides a third party extension between dispatching an action , and the moment it reaches the reducer
