@@ -1,6 +1,7 @@
 .container{
     min-height: 700px;
     margin: 60px auto;
+    background-color: rgb(247 247 247);
 }
 
 .navbar{

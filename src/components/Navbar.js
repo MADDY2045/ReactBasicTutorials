@@ -1,4 +1,4 @@
-import React,{ useState,useEffect } from 'react'
+import React,{ useState } from 'react'
 import axios from 'axios';
 
 const Navbar=(props)=>{
@@ -6,32 +6,19 @@ const Navbar=(props)=>{
     const [ templatename,setTemplateName ] = useState('');
     const [ template,setTemplate ] = useState('');
 
-    useEffect(()=>{
-        console.log(`buttonflag now ...`,props.validUuidFlag);
-    },[props.validUuidFlag]);
-
     const createNewTemplate = async () =>{
        if( templatename === '' || template === '') return alert("please alert all values");
        if(props.whatsappUuid === '') return alert('whatsapp uuid cant be null');
-        console.log('uuid',props.whatsappUuid);
-        console.log('templatename',templatename);
-        console.log('template',template);
         let data ={}
         data.category = "alert_update";
         data.whatsapp_account_uid = props.whatsappUuid;
         data.name = templatename;
         data.language_code = "en";
         data.text = template;
-        const username = '2ecc6220-e7a1-4dc4-9928-4a78b990e407'
-        const password = '4667110b-67a1-4b98-a3dd-7045ac56c796'
-        const token = Buffer.from(`${username}:${password}`, 'utf8').toString('base64');
-        //const url = 'http://localhost:4000/createtemplate';
-        console.log(token);
-        console.log('data is ......',data);
+
         let url = 'http://localhost:4000/createtemplate'
         axios.post(url,{data})
         .then(response=>{
-            //console.log(`response is ${JSON.stringify(response.data,null,2)}`);
             if(response.data.message==="failure"){
                 alert(response.data.data);
                 console.log(`response is ${JSON.stringify(response.data.data,null,2)}`);
@@ -56,18 +43,6 @@ const Navbar=(props)=>{
                     <span className="navbar-toggler-icon"></span>
                     </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-
-                {/* <ul className="navbar-nav mr-auto col-lg-3 col-sm-3 col-3">
-                <li className="nav-item dropdown">
-                    <span className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Menu
-                    </span>
-                    <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <span className="dropdown-item" data-toggle="modal" data-target="#exampleModal" >Create New</span>
-                        <span className="dropdown-item" onClick={ props.getTemplatesList }>List All Templates</span>
-                    </div>
-                </li>
-                </ul> */}
                 <form className="form-inline mr-auto">
                     <input
                     value = { props.whatsappUuid }

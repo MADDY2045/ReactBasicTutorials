@@ -1,4 +1,4 @@
-import React,{ useState,useEffect } from 'react'
+import React,{ useState } from 'react'
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -10,26 +10,12 @@ function KarixHome() {
     const [ templateList,setTemplateList ] = useState([]);
     const [ validUuidFlag,setValidUuidFlag ] = useState(true);
     const [ loaderFlag,setLoaderFlag ] = useState(false);
+
     const handleClear = () =>{
-        // alert('called clear function');
         setWhatsappUuid('');
         setTemplateList([]);
         setValidUuidFlag(true)
     }
-
-    const getTemplatesList = () =>{
-        const url = `http://localhost:4000/listalltemplates`;
-        axios({
-            method:'GET',
-            url:url
-        })
-        .then((res) => {
-        console.log(res.data)
-        })
-        .catch((error) => {
-        console.error(error)
-        })
-}
 
 const getTemplatelistById = (e)=>{
     e.preventDefault();
@@ -41,58 +27,8 @@ const getTemplatelistById = (e)=>{
             url:url
         })
         .then(res => {
-        console.log('response....',res.data)
-
         if (res.data.message === 'success'){
-            console.log('entered success part....',res.data.data.objects)
             setValidUuidFlag(false);
-            console.log(`uuid now `,whatsappUuid);
-
-            // let tempArray = [{
-            //     "uid": "3e4e654c-f4ad-430d-b41e-d71068ecf948",
-            //     "status": "pending",
-            //     "category": "account_update",
-            //     "whatsapp_account_uid": "3e4e654c-f4ad-430d-b41e-d71068ecf948",
-            //     "name": "template_1",
-            //     "language_code": "en",
-            //     "attachment": "image",
-            //     "text": "Hi {{*}}, your OTP is {{*}}",
-            //     "rejected_reason": "string"
-            //     },
-            //     {
-            //       "uid": "3e654c-f4ad-430d-b41e-d71068ecf948",
-            //       "status": "pending",
-            //       "category": "payment_update",
-            //       "whatsapp_account_uid": "3e4e654c-f4ad-430d-b41e-d71068ecf948",
-            //       "name": "template_2",
-            //       "language_code": "en",
-            //       "attachment": "image",
-            //       "text": "Hi, your order  {{*}} has been despatched",
-            //       "rejected_reason": "string"
-            //       },
-            //       {
-            //         "uid": "00be0f9e-ab62-40ee-9d84-b736e607ace7",
-            //         "status": "pending",
-            //         "category": "alert_update",
-            //         "whatsapp_account_uid": "00be0f9e-ab62-40ee-9d84-b736e607ace7",
-            //         "name": "template_2",
-            //         "language_code": "en",
-            //         "attachment": "image",
-            //         "text": "Hi, your OTP is {{*}}",
-            //         "rejected_reason": "string"
-            //         },
-            //         {
-            //           "uid": "00be0f9e-ab62-40ee-9d84-b736e607ace7",
-            //           "status": "pending",
-            //           "category": "payment_update",
-            //           "whatsapp_account_uid": "00be0f9e-ab62-40ee-9d84-b736e607ace7",
-            //           "name": "template_2",
-            //           "language_code": "en",
-            //           "attachment": "image",
-            //           "text": "Hi, your order  {{*}} has been despatched",
-            //           "rejected_reason": "string"
-            //           }]
-            // let result = res.data.data.objects;
             let filteredArray = res.data.data.objects.filter( item=> item.whatsapp_account_uid === whatsappUuid )
             setTemplateList(filteredArray);
             setLoaderFlag(false);
@@ -110,7 +46,6 @@ const getTemplatelistById = (e)=>{
 }
 
 const getTemplateListResult=()=>{
-    // if( templateList.length === 0 ) return;
     return (<table className="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -134,7 +69,6 @@ const getTemplateListResult=()=>{
                     </tr>)
                 }): <tr><td colSpan="6" >No Templates Found</td></tr>}
             </tbody>:null}
-
             </table>
     )
 }
@@ -151,11 +85,9 @@ const handleWhatsappUuid = (data)=>{
                     handleClear = { handleClear }
                     whatsappUuid = { whatsappUuid }
                     validUuidFlag = { validUuidFlag }
-                    getTemplatesList={ getTemplatesList }
                     onChange={(e)=>{handleWhatsappUuid(e.target.value)}}
                     getTemplatelistById={ getTemplatelistById }
                     />
-
                     { getTemplateListResult() }
                     <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} visible={ loaderFlag } />
                 </div>
