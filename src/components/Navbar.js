@@ -80,16 +80,6 @@ const Navbar=(props)=>{
                     </div>
                     <div className="modal-body">
                     <form>
-                        {/* <div className="form-group">
-                            <label>UUID</label>
-                            <input
-                            required
-                            onChange={(e)=>setUuid(e.target.value)}
-                            type="text" className="form-control"
-                            id="uuid"
-                            value={uuid}
-                            placeholder="Enter UUID" />
-                        </div> */}
                         <div className="form-group">
                             <label>Template Name</label>
                             <input

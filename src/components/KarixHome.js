@@ -46,7 +46,7 @@ const getTemplatelistById = (e)=>{
 }
 
 const getTemplateListResult=()=>{
-    return (<table className="table table-bordered table-striped">
+    return (<table className="table table-bordered table-striped col-lg-12 col-sm-12 col-12">
             <thead>
                 <tr>
                 <th scope="col">UUID</th>
