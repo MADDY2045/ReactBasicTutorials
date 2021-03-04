@@ -46,7 +46,7 @@ const getTemplatelistById = (e)=>{
 }
 
 const getTemplateListResult=()=>{
-    return (<table className="table table-bordered table-striped col-lg-12 col-sm-12 col-12">
+    return (<table className="table table-bordered table-striped">
             <thead>
                 <tr>
                 <th scope="col">UUID</th>
@@ -88,8 +88,10 @@ const handleWhatsappUuid = (data)=>{
                     onChange={(e)=>{handleWhatsappUuid(e.target.value)}}
                     getTemplatelistById={ getTemplatelistById }
                     />
+                <div className="table-responsive">
                     { getTemplateListResult() }
                     <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} visible={ loaderFlag } />
+                    </div>
                 </div>
             </div>
         </div>
