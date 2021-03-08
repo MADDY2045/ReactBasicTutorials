@@ -1,41 +1,9 @@
-import React,{ useState } from 'react'
-import axios from 'axios';
+import React from 'react';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
 
 const Navbar=(props)=>{
-
-    const [ templatename,setTemplateName ] = useState('');
-    const [ template,setTemplate ] = useState('');
-
-    const createNewTemplate = async () =>{
-       if( templatename === '' || template === '') return alert("please alert all values");
-       if(props.whatsappUuid === '') return alert('whatsapp uuid cant be null');
-        let data ={}
-        data.category = "alert_update";
-        data.whatsapp_account_uid = props.whatsappUuid;
-        data.name = templatename;
-        data.language_code = "en";
-        data.text = template;
-
-        let url = 'http://localhost:4000/createtemplate'
-        axios.post(url,{data})
-        .then(response=>{
-            if(response.data.message==="failure"){
-                alert(response.data.data);
-                console.log(`response is ${JSON.stringify(response.data.data,null,2)}`);
-            }else{
-                alert(response.data.data);
-                console.log(`response is ${JSON.stringify(response.data,null,2)}`);
-            }
-        })
-        .catch(err=>console.log(`error in creation of template ${err}`))
-    }
-
-    const resetData = () =>{
-        setTemplateName('');
-        setTemplate('');
-    }
-
-    return (
+     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <span className="text text-dark mr-5">Karix Home</span>
@@ -56,13 +24,16 @@ const Navbar=(props)=>{
                     className="btn btn-secondary my-2 my-sm-0"
                     type="submit">Search Templates by UUID</button>
                 </form>
+                <span>
+                    <i onClick={ props.handleLogout } className="fa fa-power-off fa-lg mr-5" ></i>
+               </span>
                 <button
                 disabled = { props.validUuidFlag }
                 onClick = { props.handleClear }
                 className="btn btn-secondary mr-5"
                 >Clear</button>
                 <button
-                onClick = { resetData }
+                onClick = { props.resetData }
                 disabled={ props.validUuidFlag }
                 className="btn btn-info"
                 data-toggle="modal"
@@ -84,33 +55,34 @@ const Navbar=(props)=>{
                             <label>Template Name</label>
                             <input
                             required
-                            onChange={(e)=>setTemplateName(e.target.value)}
+                            onChange={props.onTemplateNameChange}
                             type="text"
                             className="form-control"
                             id="templatename"
-                            value={templatename}
+                            value={props.templatename}
                             placeholder="Enter Template Name" />
                         </div>
                         <div className="form-group">
                             <label>Template Name</label>
                             <input
                             required
-                            onChange={(e)=>setTemplate(e.target.value)}
+                            onChange={props.onTemplateChange}
                             type="text"
                             className="form-control"
                             id="template"
-                            value={template}
+                            value={props.template}
                             placeholder="Enter Template" />
                         </div>
                     </form>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button onClick = { createNewTemplate } type="button" className="btn btn-primary">Submit</button>
+                        <button onClick = { props.createNewTemplate } type="button" className="btn btn-primary">Submit</button>
                     </div>
                     </div>
                 </div>
                 </div>
+                <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} visible={ props.templateCreationFlag } />
         </div>
     )
 }

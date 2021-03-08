@@ -8,10 +8,8 @@ app.use(express.json());
 
 const port = 4000;
 
-function checkValidUuid(uuid,cb){
-
-    let url=`https://18c93926-8eab-4033-b93d-69244c922ae3:558dc45b-4d33-4f95-ba74-2a30ede484d5@api.karix.io/whatsapp/account/${uuid}`;
-
+function checkValidUuid(uuid,sid,token,cb){
+    let url=`https://${sid}:${token}@api.karix.io/whatsapp/account/${uuid}`;
     let urlstring={
             url:url,
             method:'GET',
@@ -27,12 +25,13 @@ function checkValidUuid(uuid,cb){
     });
 }
 
-app.get('/listalltemplates/:uuid',(req,res)=>{
-    checkValidUuid(req.params.uuid,(err,result)=>{
+app.get('/listalltemplates/:uuid/:sid/:token',(req,res)=>{
+    const { uuid,sid,token } = req.params;
+    checkValidUuid(uuid,sid,token,(err,result)=>{
         if(err){
             return res.status(200).send({message:"failure",data:"invalid UUID"})
         }else{
-            let url=`https://18c93926-8eab-4033-b93d-69244c922ae3:558dc45b-4d33-4f95-ba74-2a30ede484d5@api.karix.io/whatsapp/template/`
+            let url = `https://${sid}:${token}@api.karix.io/whatsapp/template/`
             let urlstring={
                     url:url,
                     method:'GET',
@@ -50,9 +49,10 @@ app.get('/listalltemplates/:uuid',(req,res)=>{
     })
 })
 
-app.post('/createtemplate',(req,res)=>{
+app.post('/createtemplate/:sid/:token',(req,res)=>{
     const { data } = req.body;
-    let url = 'https://18c93926-8eab-4033-b93d-69244c922ae3:558dc45b-4d33-4f95-ba74-2a30ede484d5@api.karix.io/whatsapp/template/'
+    const { sid,token } = req.params;
+    let url = `https://${sid}:${token}@api.karix.io/whatsapp/template/`
 
     let urlstring={
         url:url,
@@ -65,7 +65,7 @@ app.post('/createtemplate',(req,res)=>{
             res.status(400).send({message:"failure",data:JSON.stringify(error)})
         }else{
             if(body.error) return res.status(200).send({message:"failure",data:JSON.stringify(body.error.message)});
-            else return res.status(200).send({message:"success",data:body});
+            else return res.status(200).send({message:"success",data:"Request Submitted Successfully"});
         }
     });
 })
