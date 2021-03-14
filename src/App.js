@@ -1,10 +1,11 @@
 import React from 'react';
-import MasterPage from './components/MasterPage';
+import JsonPlaceHolder from './components/JsonPlaceHolder';
+import './App.css';
 
 const App = () => {
   return (
     <div>
-      <MasterPage />
+      <JsonPlaceHolder/>
     </div>
   );
 }
